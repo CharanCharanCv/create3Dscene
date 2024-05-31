@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js Room with Random Objects</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Basic scene setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Room dimensions
+        const roomWidth = Math.sqrt(1000);
+        const roomDepth = Math.sqrt(1000);
+        const roomHeight = 10;
+
+        // Create the room (floor, walls, and ceiling)
+        const roomMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.BackSide });
+
+        const floor = new THREE.Mesh(new THREE.PlaneGeometry(roomWidth, roomDepth), roomMaterial);
+        floor.rotation.x = - Math.PI / 2;
+        scene.add(floor);
+
+        const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(roomWidth, roomDepth), roomMaterial);
+        ceiling.rotation.x = Math.PI / 2;
+        ceiling.position.y = roomHeight;
+        scene.add(ceiling);
+
+        const wall1 = new THREE.Mesh(new THREE.PlaneGeometry(roomWidth, roomHeight), roomMaterial);
+        wall1.position.z = -roomDepth / 2;
+        wall1.position.y = roomHeight / 2;
+        scene.add(wall1);
+
+        const wall2 = new THREE.Mesh(new THREE.PlaneGeometry(roomWidth, roomHeight), roomMaterial);
+        wall2.position.z = roomDepth / 2;
+        wall2.position.y = roomHeight / 2;
+        wall2.rotation.y = Math.PI;
+        scene.add(wall2);
+
+        const wall3 = new THREE.Mesh(new THREE.PlaneGeometry(roomDepth, roomHeight), roomMaterial);
+        wall3.position.x = -roomWidth / 2;
+        wall3.position.y = roomHeight / 2;
+        wall3.rotation.y = -Math.PI / 2;
+        scene.add(wall3);
+
+        const wall4 = new THREE.Mesh(new THREE.PlaneGeometry(roomDepth, roomHeight), roomMaterial);
+        wall4.position.x = roomWidth / 2;
+        wall4.position.y = roomHeight / 2;
+        wall4.rotation.y = Math.PI / 2;
+        scene.add(wall4);
+
+        // Add light
+        const light = new THREE.PointLight(0xffffff, 1, 100);
+        light.position.set(0, roomHeight, 0);
+        scene.add(light);
+
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+
+        // Randomly place interior objects
+        const numberOfObjects = 10;
+        const objects = [];
+
+        for (let i = 0; i < numberOfObjects; i++) {
+            const geometry = new THREE.BoxGeometry(1, 1, 1);
+            const material = new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff });
+            const cube = new THREE.Mesh(geometry, material);
+
+            cube.position.x = (Math.random() - 0.5) * roomWidth;
+            cube.position.z = (Math.random() - 0.5) * roomDepth;
+            cube.position.y = 0.5;
+
+            objects.push(cube);
+            scene.add(cube);
+        }
+
+        // Set camera position
+        camera.position.set(0, roomHeight / 2, roomDepth);
+        camera.lookAt(0, roomHeight / 2, 0);
+
+        // Render loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate objects for some dynamic effect
+            objects.forEach(obj => {
+                obj.rotation.x += 0.01;
+                obj.rotation.y += 0.01;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+
+</html>
