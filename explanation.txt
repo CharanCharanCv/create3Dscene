@@ -1,0 +1,17 @@
+Explanation:
+
+Basic Scene Setup: Initializes the Three.js scene, camera, and renderer.
+
+Room Dimensions: The room is approximately 1000 square feet in area, assuming a square room for simplicity.
+
+Room Creation: Floor, ceiling, and walls are created using PlaneGeometry and positioned appropriately.
+
+ Lighting: Adds a point light and ambient light to illuminate the scene.
+
+Random Object Placement: Randomly places a specified number of box geometries (representing interior objects) within the room.
+
+Camera Position: Sets the camera position and orientation to give a good view of the room.
+
+Render Loop: Continuously renders the scene and animates the objects with a small rotation for a dynamic effect.
+
+Save this code as an HTML file and open it in a web browser to see the 3D scene.
