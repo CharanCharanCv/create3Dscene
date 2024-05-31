@@ -1,0 +1,8 @@
+Create a threejs script to create a 3d scene of a room with random placement of interior objects in 1000 sqft of area.
+
+To create a 3D scene of a room with random placement of interior objects using Three.js, you'll need to follow these steps:
+
+Set up a basic Three.js scene with a camera, renderer, and lights.
+Define the dimensions of the room.
+Create interior objects (e.g., furniture) and place them randomly within the room.
+Render the scene.
